@@ -1,20 +1,49 @@
 using UnityEngine;
+using System.Collections;
+using UnityEngine.InputSystem;
 
 public class ItemInteract : MonoBehaviour
 {
     public GameObject interactUI;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-void OnTriggerEnter (Collider other)
+
+    public bool hasDialogue = false;
+    [HideInInspector] public bool playDialogueOnInteract = false;
+
+    void Start ()
     {
-        if (other.gameObject.CompareTag ("Player"))
+
+    }
+
+    void Update ()
+    {
+
+    }
+
+    void OnTriggerEnter (Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
         {
             interactUI.SetActive(true);
         }
     }
 
-    void OnTriggerExit (Collider other)
+    //Interact UI enabled if player is within distance of an interactable
+    void OnTriggerStay (Collider other)
     {
-        if (other.gameObject.CompareTag ("Player"))
+        if (other.gameObject.CompareTag("Player") && Keyboard.current.eKey.isPressed)
+        {
+            Debug.Log("Interacted with an object.");
+
+            if (hasDialogue)
+            {
+                playDialogueOnInteract = true;
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
         {
             interactUI.SetActive(false);
         }

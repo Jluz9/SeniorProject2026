@@ -107,12 +107,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 94.08233, y: 243.86902, z: 24.406147}
-  m_Center: {x: 47.041164, y: 121.93451, z: -2.5204873}
+  m_Size: {x: 63.868046, y: 243.86902, z: 24.406147}
+  m_Center: {x: 31.934023, y: 121.93451, z: -2.5204868}
 --- !u!95 &3899730417439672404
 Animator:
   serializedVersion: 7
@@ -242,12 +242,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 94.08233, y: 243.86902, z: 24.406147}
-  m_Center: {x: 47.041164, y: 121.93451, z: -2.5204873}
+  m_Size: {x: 60.777378, y: 243.86902, z: 24.406147}
+  m_Center: {x: 30.388689, y: 121.93451, z: -2.5204868}
 --- !u!95 &2855688002612039721
 Animator:
   serializedVersion: 7
@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 5296566419425193690}
   - component: {fileID: 771048537914671896}
   - component: {fileID: 2180901312243387420}
+  - component: {fileID: 7989947318877215368}
   m_Layer: 0
   m_Name: DoubleDoor
   m_TagString: Untagged
@@ -341,3 +342,16 @@ MonoBehaviour:
   door: {fileID: 6256726342013249396}
   leftDoor: {fileID: 7663396181239096805}
   doubleDoor: 1
+--- !u!114 &7989947318877215368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7687348991320522889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 491317e2cb086304e88dcf7d00583090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  interactUI: {fileID: 0}
