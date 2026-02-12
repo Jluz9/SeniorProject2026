@@ -7,7 +7,10 @@ public class ItemInteract : MonoBehaviour
     public GameObject interactUI;
 
     public bool hasDialogue = false;
-    [HideInInspector] public bool playDialogueOnInteract = false;
+    bool canPlayDialogue = false;
+    bool canInteract = false;
+
+    [SerializeField] PlayDialogueOnInteract dialogue;
 
     void Start ()
     {
@@ -16,7 +19,12 @@ public class ItemInteract : MonoBehaviour
 
     void Update ()
     {
-
+        if (canInteract && Keyboard.current.eKey.isPressed)
+        {
+            Debug.Log("Interacted with an object.");
+            canPlayDialogue = true;
+            canInteract = false;
+        }
     }
 
     void OnTriggerEnter (Collider other)
@@ -24,19 +32,11 @@ public class ItemInteract : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             interactUI.SetActive(true);
-        }
-    }
-
-    //Interact UI enabled if player is within distance of an interactable
-    void OnTriggerStay (Collider other)
-    {
-        if (other.gameObject.CompareTag("Player") && Keyboard.current.eKey.isPressed)
-        {
-            Debug.Log("Interacted with an object.");
+            canInteract = true;
 
             if (hasDialogue)
             {
-                playDialogueOnInteract = true;
+                StartCoroutine(WaitUntilInteract());
             }
         }
     }
@@ -47,5 +47,16 @@ public class ItemInteract : MonoBehaviour
         {
             interactUI.SetActive(false);
         }
+    }
+
+    IEnumerator WaitUntilInteract()
+    {
+        yield return new WaitUntil(() => canPlayDialogue == true);
+        canPlayDialogue = false;
+        dialogue.PlayDialogue();  
+            if (!dialogue.oneTimeDialogue)
+            {
+                StartCoroutine(dialogue.WaitUntilLastLine());
+            }
     }
 }

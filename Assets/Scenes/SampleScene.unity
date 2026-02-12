@@ -1138,9 +1138,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0542970017d5aa4a94e20de621353df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  interact: {fileID: 838147339}
-  dialogue: {fileID: 8300000, guid: 8323bd6b9f1ef434bb7a81c8c6d51b5d, type: 3}
-  subtitleText: Sample interact dialogue
+  dialogue:
+  - {fileID: 8300000, guid: 8323bd6b9f1ef434bb7a81c8c6d51b5d, type: 3}
+  - {fileID: 8300000, guid: 8323bd6b9f1ef434bb7a81c8c6d51b5d, type: 3}
+  subtitleText:
+  - Hello.
+  - Hello brain.
+  totalLines: 2
+  oneTimeDialogue: 1
 --- !u!114 &838147339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1155,7 +1160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemInteract
   interactUI: {fileID: 853995273}
   hasDialogue: 1
-  playDialogueOnInteract: 0
+  dialogue: {fileID: 838147338}
 --- !u!136 &838147340
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2048,7 +2053,7 @@ Transform:
   m_GameObject: {fileID: 1559481453}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.14872, y: 0, z: 2.65276}
+  m_LocalPosition: {x: 3.55, y: 1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2130,7 +2135,7 @@ GameObject:
   - component: {fileID: 1686833652}
   - component: {fileID: 1686833651}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: DialogueTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2148,8 +2153,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da30b181ab6cf2446b190ef29b0ee52a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  dialogue: {fileID: 8300000, guid: 8323bd6b9f1ef434bb7a81c8c6d51b5d, type: 3}
-  subtitleText: Collision dialogue test
+  dialogue:
+  - {fileID: 8300000, guid: 8323bd6b9f1ef434bb7a81c8c6d51b5d, type: 3}
+  - {fileID: 8300000, guid: 8323bd6b9f1ef434bb7a81c8c6d51b5d, type: 3}
+  subtitleText:
+  - Sample collision dialogue line 1
+  - Sample collision dialogue line 2
+  totalLines: 2
+  oneTimeDialogue: 0
 --- !u!65 &1686833652
 BoxCollider:
   m_ObjectHideFlags: 0
