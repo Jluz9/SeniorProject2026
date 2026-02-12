@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 public class PlayDialogueOnCollision : MonoBehaviour
 {
-    public AudioClip[] dialogue;
-    public string[] subtitleText;
+    public DialogueClass[] dialogue;
     
     public int totalLines = 1;
     private int lineNum = 0;
@@ -34,7 +33,7 @@ public class PlayDialogueOnCollision : MonoBehaviour
 
     IEnumerator PlaySequentialLines()
     {
-        yield return new WaitForSeconds(dialogue[lineNum].length);
+        yield return new WaitForSeconds(dialogue[lineNum].clip.length);
         lineNum++;
         linesToPlay--;
         PlayDialogue();
@@ -44,8 +43,8 @@ public class PlayDialogueOnCollision : MonoBehaviour
     {
         if (linesToPlay > 0)
         {
-            DialogueManager.instance.PlayDialogue(dialogue[lineNum]);
-            DialogueManager.instance.SetSubtitle(subtitleText[lineNum], dialogue[lineNum].length);
+            DialogueManager.instance.PlayDialogue(dialogue[lineNum].clip);
+            DialogueManager.instance.SetSubtitle(dialogue[lineNum].text, dialogue[lineNum].clip.length);
 
             StartCoroutine(PlaySequentialLines());
         }

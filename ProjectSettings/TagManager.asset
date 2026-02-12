@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - Speaker
+  - GameManager
   layers:
   - Default
   - TransparentFX

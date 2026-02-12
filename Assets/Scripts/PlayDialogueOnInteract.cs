@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class PlayDialogueOnInteract : MonoBehaviour
 {
-    public AudioClip[] dialogue;
-    public string[] subtitleText;
+    public DialogueClass[] iDialogue;
 
     public int totalLines = 1;
     private int lineNum = 0;
@@ -28,8 +27,8 @@ public class PlayDialogueOnInteract : MonoBehaviour
     {
         if (linesToPlay > 0)
         {
-            DialogueManager.instance.PlayDialogue(dialogue[lineNum]);
-            DialogueManager.instance.SetSubtitle(subtitleText[lineNum], dialogue[lineNum].length);
+            DialogueManager.instance.PlayDialogue(iDialogue[lineNum].clip);
+            DialogueManager.instance.SetSubtitle(iDialogue[lineNum].text, iDialogue[lineNum].clip.length);
 
             StartCoroutine(PlaySequentialLines());
         }
@@ -37,7 +36,7 @@ public class PlayDialogueOnInteract : MonoBehaviour
 
     IEnumerator PlaySequentialLines()
     {
-        yield return new WaitForSeconds(dialogue[lineNum].length);
+        yield return new WaitForSeconds(iDialogue[lineNum].clip.length);
         lineNum++;
         linesToPlay--;
         PlayDialogue();
