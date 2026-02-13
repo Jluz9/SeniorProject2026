@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
 
@@ -9,9 +10,12 @@ public class HungerManager : MonoBehaviour
     [HideInInspector] public float hunger = 60.0f;
     public float maxHunger = 60.0f;
     public Text hungerDebug;
+    float tempTimeLeft;
     
-    private Animator redAnimator;
+    [Header ("VFX")]
     public GameObject redScreen;
+    public float animLength = 30.0f;
+    Image red;
 
     [Header ("SFX")]
     public AudioClip hungerSFX;
@@ -25,9 +29,11 @@ public class HungerManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        redAnimator = redScreen.GetComponent<Animator>();
+        //redAnimator = redScreen.GetComponent<Animator>();
 
         hunger = maxHunger;
+
+        red = redScreen.GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -36,6 +42,11 @@ public class HungerManager : MonoBehaviour
         if (hunger > 0)
         {
             hunger -= Time.deltaTime;
+
+            if (Keyboard.current.fKey.isPressed)
+            {
+                hunger = 30.0f;
+            }
         }
         else
         {
@@ -49,16 +60,16 @@ public class HungerManager : MonoBehaviour
 
         if (hunger <= 30)
         {
-            redAnimator.enabled = true;
-            redAnimator.SetBool("FadeIn", true);
+            //redAnimator.enabled = true;
+            //redAnimator.SetBool("FadeIn", true);
+            StartCoroutine(FadeIn(red));
+            Debug.Log ("Fade in started");
             canFadeOut = true;
 
             PlayStarveSFX();
         }
         else if (hunger > 30)
         {
-            redAnimator.SetBool("FadeIn", false);
-
             if (speaker.isPlaying == true)
             {
                 speaker.Stop();
@@ -66,11 +77,13 @@ public class HungerManager : MonoBehaviour
 
             if (canFadeOut)
             {
-                StartCoroutine(WaitUntilAnimDone());
+                StartCoroutine(FadeOut(red));
             }
         }
 
         hungerDebug.text = ("Hunger: " + hunger);
+
+        Debug.Log ("Time left in animation: " + tempTimeLeft);
     }
 
     void PlayHungerSFX()
@@ -91,10 +104,32 @@ public class HungerManager : MonoBehaviour
         }
     }
 
-    IEnumerator WaitUntilAnimDone()
+    private YieldInstruction fadeInstruction = new YieldInstruction();
+    IEnumerator FadeIn(Image image)
     {
-        yield return new WaitForSeconds(15);
-        redAnimator.enabled = false;
+        float elapsedTime = 0.0f;
+        Color tempColor = image.color;
+        while(elapsedTime < animLength && hunger < 30)
+        {
+            yield return fadeInstruction;
+            elapsedTime += Time.deltaTime;
+            tempColor.a = Mathf.Clamp01(elapsedTime / animLength);
+            image.color = tempColor;
+            tempTimeLeft = animLength - elapsedTime;
+        }
+    }
+
+    IEnumerator FadeOut(Image image)
+    {
+        float elapsedTime = tempTimeLeft;
+        Color tempColor = image.color;
+        while(elapsedTime < animLength && hunger > 30)
+        {
+            yield return fadeInstruction;
+            elapsedTime += Time.deltaTime;
+            tempColor.a = 1.0f - Mathf.Clamp01(elapsedTime / animLength);
+            image.color = tempColor;
+        }
         canFadeOut = false;
     }
 }

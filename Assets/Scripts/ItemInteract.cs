@@ -23,7 +23,7 @@ public class ItemInteract : MonoBehaviour
     {
         if (canInteract && Keyboard.current.eKey.isPressed)
         {
-            //Debug.Log("Interacted with an object.");
+            interactUI.SetActive(false);
 
             if(hasDialogue)
             {
@@ -38,10 +38,10 @@ public class ItemInteract : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             interactUI.SetActive(true);
+            canInteract = true;
 
             if (hasDialogue)
             {
-                canInteract = true;
                 StartCoroutine(WaitUntilInteract());
             }
         }
