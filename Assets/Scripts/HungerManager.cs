@@ -25,6 +25,8 @@ public class HungerManager : MonoBehaviour
     private bool hungerCanPlay = true;
     private bool starveCanPlay = true;
     private bool canFadeOut = false;
+    bool dead = false;
+    SceneManager sceneManager;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,6 +36,7 @@ public class HungerManager : MonoBehaviour
         hunger = maxHunger;
 
         red = redScreen.GetComponent<Image>();
+        sceneManager = GetComponent<SceneManager>();
     }
 
     // Update is called once per frame
@@ -43,47 +46,55 @@ public class HungerManager : MonoBehaviour
         {
             hunger -= Time.deltaTime;
 
-            if (Keyboard.current.fKey.isPressed)
+            if (Keyboard.current.fKey.isPressed && hunger>60)
             {
-                hunger = 30.0f;
+                hungerDebug.enabled = true;
+                hunger = 60.0f;
             }
         }
-        else
+        else if (hunger <= 0)
         {
-            
+            sceneManager.Death();
+            canFadeOut = false;
+            dead = true;
+            redScreen.SetActive(false);
+            speaker.Stop();
         }
         
         if (hunger <= 60)
         {
+
             PlayHungerSFX();
         }
 
-        if (hunger <= 30)
+        if (hunger <= 30 && hunger > 0)
         {
             //redAnimator.enabled = true;
             //redAnimator.SetBool("FadeIn", true);
             StartCoroutine(FadeIn(red));
             Debug.Log ("Fade in started");
             canFadeOut = true;
+            redScreen.SetActive(true);
 
             PlayStarveSFX();
         }
         else if (hunger > 30)
         {
-            if (speaker.isPlaying == true)
-            {
-                speaker.Stop();
-            }
 
-            if (canFadeOut)
+            if (canFadeOut && !dead)
             {
                 StartCoroutine(FadeOut(red));
+
+                if (speaker.isPlaying)
+                {
+                    speaker.Stop();
+                }
             }
         }
 
         hungerDebug.text = ("Hunger: " + hunger);
 
-        Debug.Log ("Time left in animation: " + tempTimeLeft);
+        //Debug.Log ("Time left in animation: " + tempTimeLeft);
     }
 
     void PlayHungerSFX()
@@ -131,5 +142,12 @@ public class HungerManager : MonoBehaviour
             image.color = tempColor;
         }
         canFadeOut = false;
+        StartCoroutine(WaitUntilAnimDone());
+    }
+
+    IEnumerator WaitUntilAnimDone()
+    {
+        yield return new WaitForSeconds(animLength);
+        redScreen.SetActive(false);
     }
 }

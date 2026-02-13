@@ -52,6 +52,7 @@ public class ItemInteract : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             interactUI.SetActive(false);
+            canInteract = false;
         }
     }
 

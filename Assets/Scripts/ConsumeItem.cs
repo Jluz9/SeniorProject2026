@@ -30,7 +30,6 @@ public class ConsumeItem : MonoBehaviour
             canConsume = true;
             _canInteract = false;
         }
-        Debug.Log(canConsume);
     }
 
         void OnTriggerEnter (Collider other)

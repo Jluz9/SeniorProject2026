@@ -19,9 +19,6 @@ public bool doubleDoor = false;
 Animator doorAnimator;
 Animator leftDoorAnimator;
 
-//public float openSpeed = 1;
-//float openRate = 0;
-
 void Start()
     {
         doorAnimator = door.GetComponent<Animator>();
@@ -44,7 +41,6 @@ void OnTriggerStay (Collider other)
         {
             if (Keyboard.current.eKey.isPressed && isOpen == false)
             {
-                //door.transform.Rotate(0,-80 * openSpeed * Time.deltaTime, 0);
                 canOpen = false;
                 isOpen = true;
                 doorAnimator.SetBool("IsOpen", true);
@@ -56,7 +52,6 @@ void OnTriggerStay (Collider other)
             }
             else if (Keyboard.current.eKey.isPressed && isOpen == true)
             {
-                //door.transform.Rotate(0,80 * openSpeed * Time.deltaTime, 0);
                 canOpen = false;
                 isOpen = false;
                 doorAnimator.SetBool("IsOpen", false);
@@ -73,6 +68,12 @@ void OnTriggerStay (Collider other)
     {
         if (other.gameObject.CompareTag ("Player"))
         {
+            StartCoroutine(WaitForAnim());
+        }
+
+        IEnumerator WaitForAnim()
+        {
+            yield return new WaitForSeconds(0.45f);
             doorAnimator.enabled = false;
             leftDoorAnimator.enabled = false;
         }
