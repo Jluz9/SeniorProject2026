@@ -39,7 +39,7 @@ void OnTriggerStay (Collider other)
     {
         if (other.gameObject.CompareTag ("Player") && canOpen == true)
         {
-            if (Keyboard.current.eKey.isPressed && isOpen == false)
+            if (Mouse.current.leftButton.isPressed && isOpen == false)
             {
                 canOpen = false;
                 isOpen = true;
@@ -50,7 +50,7 @@ void OnTriggerStay (Collider other)
                     leftDoorAnimator.SetBool("IsOpen", true);
                 }
             }
-            else if (Keyboard.current.eKey.isPressed && isOpen == true)
+            else if (Mouse.current.leftButton.isPressed && isOpen == true)
             {
                 canOpen = false;
                 isOpen = false;

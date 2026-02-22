@@ -8,6 +8,7 @@ TagManager:
   - Speaker
   - GameManager
   - PublicSpeaker
+  - InteractObject
   layers:
   - Default
   - TransparentFX
