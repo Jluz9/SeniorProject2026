@@ -14,14 +14,23 @@ public class ItemInteract : MonoBehaviour
 
     [SerializeField] PlayDialogueOnInteract dialogue;
 
+    public LayerMask layersToHit;
+    float maxDistance = 100f;
+    Ray ray;
+    private bool isHitting = false;
+    //GameObject player;
+
     void Start ()
     {
 
+        //ray = new Ray(cam.transform.position, player.transform.forward);
+        //player = GameObject.FindWithTag("Player"); 
     }
 
     void Update ()
     {
-        if (canInteract && Keyboard.current.eKey.isPressed)
+        ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (canInteract && Mouse.current.leftButton.isPressed)
         {
             interactUI.SetActive(false);
 
@@ -31,28 +40,80 @@ public class ItemInteract : MonoBehaviour
                 canPlayDialogue = true;
             }
         }
-    }
 
-    void OnTriggerEnter (Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
+        /*if (isHitting)
+        {
+            Debug.DrawLine(ray.origin, hit.point, Color.green);
+
+            if(hit.collider.CompareTag("Interactable"))
+            {
+                canInteract = true;
+            }
+        }
+        else
+        {
+            if(canInteract)
+            {
+                canInteract = false;
+            }
+        }*/
+       if (canInteract)
         {
             interactUI.SetActive(true);
-            canInteract = true;
 
             if (hasDialogue)
             {
                 StartCoroutine(WaitUntilInteract());
             }
         }
+        else
+        {
+            if (interactUI.activeSelf == true)
+            {
+                interactUI.SetActive(false);
+            }
+        }
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerEnter (Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            interactUI.SetActive(false);
+            CheckIfHitting();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            CheckIfHitting();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
             canInteract = false;
+        }
+    }
+
+    void CheckIfHitting()
+    {
+        if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, layersToHit, QueryTriggerInteraction.Ignore))
+        {
+            canInteract = true;
+            Debug.Log("Hit Something");
+            Debug.DrawLine(ray.origin, hit.point, Color.green);
+        }
+        else
+        {
+            canInteract = false;
+            canPlayDialogue = false;
+            
+            Debug.Log("Not hitting anything");
+            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
         }
     }
 

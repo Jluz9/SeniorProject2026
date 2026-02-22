@@ -6,8 +6,8 @@ public class PlayDialogueOnInteract : MonoBehaviour
     public DialogueClass[] iDialogue;
 
     public int totalLines = 1;
-    private int lineNum = 0;
-    private int linesToPlay = 0;
+    [SerializeField] private int lineNum = 0;
+    [SerializeField] private int linesToPlay = 0;
 
     public bool oneTimeDialogue = true;
     
